@@ -1,53 +1,72 @@
+# --- Compilers & Flags ---
 CC = g++
-CFLAGS = -Wall -Wextra -g -std=c++17 -Isrc/headers
+NVCC = nvcc
 
-# Directories
+ARCH = -arch=sm_86 # <---------- Sesuaikan ini (nvidia-smi --query-gpu=compute_cap --format=csv,noheader)
+CFLAGS = -Wall -Wextra -g -std=c++17 -Isrc/headers -fopenmp
+NVCCFLAGS = -g -std=c++17 -Isrc/headers $(ARCH)
+LFLAGS_GUI = -lsfml-graphics -lsfml-window -lsfml-system
+
+# --- Directories ---
 SRC = src
 BIN = bin
 OBJ = obj
 
+# --- Source & Object Files ---
+CLI_CPP_SOURCES = $(SRC)/cli.cpp $(SRC)/generator/serial.cpp $(SRC)/generator/cpu.cpp $(SRC)/image_writer.cpp
+CLI_CU_SOURCES  = $(SRC)/generator/gpu.cu
+GUI_CPP_SOURCES = $(SRC)/gui/components.cpp $(SRC)/gui/control_window.cpp $(SRC)/gui/render_window.cpp $(SRC)/gui.cpp \
+                  $(SRC)/image_writer.cpp $(SRC)/generator/serial.cpp $(SRC)/generator/cpu.cpp
+GUI_CU_SOURCES  = $(SRC)/generator/gpu.cu
+
+CLI_CPP_OBJECTS = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(CLI_CPP_SOURCES))
+CLI_CU_OBJECTS  = $(patsubst $(SRC)/%.cu,$(OBJ)/%.o,$(CLI_CU_SOURCES))
+GUI_CPP_OBJECTS = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(GUI_CPP_SOURCES))
+GUI_CU_OBJECTS  = $(patsubst $(SRC)/%.cu,$(OBJ)/%.o,$(GUI_CU_SOURCES))
+
+# --- Binaries ---
 CLI_BIN = $(BIN)/mandelbrot_cli
 GUI_BIN = $(BIN)/mandelbrot_gui
 
-CLI_SOURCES = $(SRC)/cli.cpp $(SRC)/serial.cpp $(SRC)/cpu.cpp $(SRC)/image_writer.cpp
-CLI_OBJECTS = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(CLI_SOURCES))
+.PHONY: all cli gui clean run_cli run_gui
 
-GUI_SOURCES = $(SRC)/gui/components.cpp $(SRC)/gui/control_window.cpp $(SRC)/gui/render_window.cpp $(SRC)/gui.cpp \
-			  $(SRC)/gpu.cpp $(SRC)/image_writer.cpp $(SRC)/serial.cpp $(SRC)/cpu.cpp
-GUI_OBJECTS = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(GUI_SOURCES))
-
+all: cli gui
 cli: $(CLI_BIN)
 gui: $(GUI_BIN)
-all: cli gui
 
+# --- Rules ---
+
+# Kompilasi C++ (.cpp -> .o)
 $(OBJ)/%.o: $(SRC)/%.cpp
-	@mkdir -p $(OBJ)/gui
-	@mkdir -p $(OBJ)
-	@echo "Compiling $<..."
+	@mkdir -p $(dir $@)
+	@echo "Compiling C++: $<"
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(CLI_BIN): $(CLI_OBJECTS)
+# Kompilasi CUDA (.cu -> .o)
+$(OBJ)/%.o: $(SRC)/%.cu
+	@mkdir -p $(dir $@)
+	@echo "Compiling CUDA: $<"
+	$(NVCC) $(NVCCFLAGS) -c $< -o $@
+
+# Linking CLI 
+$(CLI_BIN): $(CLI_CPP_OBJECTS) $(CLI_CU_OBJECTS)
 	@mkdir -p $(BIN)
 	@echo "Linking $(CLI_BIN)..."
-	$(CC) $(CLI_OBJECTS) -o $@
+	$(NVCC) $^ -o $@ -Xcompiler "$(CFLAGS)"
 
-$(GUI_BIN): $(GUI_OBJECTS)
+# Linking GUI
+$(GUI_BIN): $(GUI_CPP_OBJECTS) $(GUI_CU_OBJECTS)
 	@mkdir -p $(BIN)
 	@echo "Linking $(GUI_BIN)..."
-	$(CC) $(GUI_OBJECTS) -o $@ -lsfml-graphics -lsfml-window -lsfml-system # Example for SFML
+	$(NVCC) $^ -o $@ $(LFLAGS_GUI) -Xcompiler "$(CFLAGS)"
 
-.PHONY: all clean run_cli run_gui
+# --- Utility Targets ---
+run_cli: cli
+	@./$(CLI_BIN)
 
-run_cli: $(CLI_BIN)
-	@echo "Running $(CLI_BIN)..."
-	@$(CLI_BIN)
-
-run_gui: $(GUI_BIN)
-	@echo "Running $(GUI_BIN)..."
-	@$(GUI_BIN)
+run_gui: gui
+	@./$(GUI_BIN)
 
 clean:
 	@echo "Cleaning up..."
-	@rm -f $(CLI_BIN) $(GUI_BIN)
-	@rm -rf $(OBJ)
-	@rmdir --ignore-fail-on-non-empty $(BIN)
+	@rm -rf $(OBJ) $(BIN)

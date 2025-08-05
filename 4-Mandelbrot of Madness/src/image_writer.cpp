@@ -44,7 +44,7 @@ struct BmpInfoHeader {
 
 
 void saveToBmp(const string& filename, const Colors& pixels, int width, int height){
-    ofstream file(filename, std::ios::out | std::ios::binary);
+    ofstream file(filename, ios::out | ios::binary);
     if (!file) return;
 
     // mult of 4

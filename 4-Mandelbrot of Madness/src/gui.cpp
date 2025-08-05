@@ -18,12 +18,12 @@
  */
 int main() {
     // --- Inisialisasi Utama ---
-    std::cout << "Membuka aplikasi GUI Mandelbrot..." << std::endl;
+    cout << "Membuka aplikasi GUI Mandelbrot..." << endl;
 
     // Muat font yang akan dibagikan ke jendela kontrol
     sf::Font sharedFont;
     if (!sharedFont.loadFromFile("/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf")) {
-        std::cerr << "Error: Gagal memuat font utama. Pastikan paket ttf-dejavu terinstal." << std::endl;
+        cerr << "Error: Gagal memuat font utama. Pastikan paket ttf-dejavu terinstal." << endl;
         return -1;
     }
 
@@ -53,6 +53,6 @@ int main() {
         render.draw();
     }
 
-    std::cout << "Menutup aplikasi." << std::endl;
+    cout << "Menutup aplikasi." << endl;
     return 0;
 }
