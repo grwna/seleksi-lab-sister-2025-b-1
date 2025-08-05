@@ -6,10 +6,16 @@
 
 Proyek ini di buat sebagai salah satu tugas seleksi asisten Laboratorium Sistem Terdistribusi. Program dapat menghasilkan gambar himpunan Mandelbrot dalam bentuk `.bmp` menggunakan  tiga jenis implementasi: serial, paralel CPU dengan OpenMP, dan akselerasi GPU menggunakan CUDA. Program ini ditulis dalam bahasa C++
 
+<br>
+
+
 ## Author
 | Nama              | NIM      | Github                            |
 | ----------------- | -------- | --------------------------------- |
 | M. Rayhan Farrukh | 13523035 | [grwna](https://github.com/grwna) |
+
+<br>
+
 
 ## 📑 Daftar Isi
 - [Fitur](#-fitur)
@@ -28,10 +34,16 @@ Proyek ini di buat sebagai salah satu tugas seleksi asisten Laboratorium Sistem 
     - [Contoh Hasil Gambar](#contoh-hasil-gambar)
     - [Video Demo]()
     
+<br>
+
+
 ## ✨Fitur
-- 🚀 Generator dengan tiga mode (serial, CPU, GPU)
+- Generator dengan tiga mode (serial, CPU, GPU)
+- Dapat dijalankan melalui CLI atau GUI
 - 
-- 
+
+<br>
+
 
 ## 📝Deskripsi Implementasi
 
@@ -52,6 +64,8 @@ Mode CLI hanya sederhana, dan sebenarnya tidak ada *interface* sama sekali. Mode
 ### 💻GUI
 
 GUI menampilkan satu *window* untuk mengatur parameter *image*,  dan satu *window* lain untuk menampilkan *image* hasil generasi. Parameter yang dapat diatur adalah mode kalkulasi (serial, cpu, gpu), dimensi gambar, serta *max iterations*.  Untuk mode GUI, tidak ada fitur untuk menyimpan gambar, gunakanlah GUI untuk mengecek *preview* dari gambar, kemudian gunakan parameter tersebut pada mode CLI untuk menyimpan gambar. Juga tidak ada multitasking, jadi ketika *image* di-*render*, GUI akan *freeze*.
+
+<br>
 
 ## 📖Petunjuk Kompilasi & Menjalankan
 
@@ -117,6 +131,9 @@ Contoh penggunaan:
 ```
 time make run_cli < test/1.txt
 ```
+
+<br>
+
 ## ⚙️Testing
 ### Hasil Benchmarking
 
