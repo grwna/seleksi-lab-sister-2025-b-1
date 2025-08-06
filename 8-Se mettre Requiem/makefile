@@ -19,6 +19,10 @@ $(BIN)/se_mettre: $(SRC)/se_mettre.c
 run:
 	@$(BIN)/se_mettre
 
+se:
+	@mkdir -p $(BIN)
+	gcc -Wall -Wextra -g -Isrc/headers src/se.c -o bin/se
+
 .PHONY: all clean
 
 clean:

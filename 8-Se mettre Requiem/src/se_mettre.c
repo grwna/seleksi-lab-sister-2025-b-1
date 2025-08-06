@@ -90,6 +90,8 @@ void big_num_multiply(int res[], int num1[], int len1, int num2[], int len2){
         if (GREATER(INDEX(res, i, int, 4), 9)) {
             int carry = 0;
             int current_val = INDEX(res, i, int, 4);
+
+            // optimasi normalisasi
             div_10000:
                 if (GREATER(current_val, 9999)) {
                     current_val = subtract(current_val, 10000);
@@ -118,24 +120,25 @@ void big_num_multiply(int res[], int num1[], int len1, int num2[], int len2){
             INDEX(res, add(i, 1), int, 4) = add(INDEX(res, add(i, 1), int, 4), carry);
             }
         i = add(i, 1);
-        if (GREATER(subtract(add(len1, len2), 1), i)) goto normalize;
+        // if (GREATER(subtract(add(len1, len2), 1), i)) goto normalize;
+        if (GREATER(add(len1, len2), i)) goto normalize;
 }
 
 int main(){
-    char num1[1001];
-    char num2[1001];
+    char num1[1003];
+    char num2[1003];
     scanf("%s", num1);
     scanf("%s", num2);
     
-    int int_num1[1000];
-    int int_num2[1000];
+    int int_num1[2000];
+    int int_num2[2000];
 
     unsigned int len1 = parse_big_int(num1, int_num1);
     unsigned int len2 = parse_big_int(num2, int_num2);
 
-    int result[2000];
+    int result[4002];
 
     big_num_multiply(result, int_num1, len1, int_num2, len2);
-    print_bignum(result, 2000);
+    print_bignum(result, 4002);
     return 0;
 }

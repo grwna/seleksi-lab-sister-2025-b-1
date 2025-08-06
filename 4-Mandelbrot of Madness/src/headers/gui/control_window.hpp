@@ -21,9 +21,11 @@ private:
     SharedState& m_sharedState;
     sf::Font& m_font;
 
-    std::vector<std::unique_ptr<TextBox>> m_textBoxes;
-    std::vector<sf::RectangleShape> m_buttons; // BARU: Untuk tombol +/-
-    std::vector<sf::Text> m_buttonLabels;      // BARU: Untuk label tombol
+    vector<unique_ptr<TextBox>> m_textBoxes;
+    vector<unique_ptr<TextBox>> m_stepBoxes;
+    vector<sf::RectangleShape> m_buttons; // BARU: Untuk tombol +/-
+    vector<sf::Text> m_buttonLabels;      // BARU: Untuk label tombol
+    unique_ptr<Dropdown> m_modeDropdown;
 
     size_t m_activeTextBoxIndex = 0; // BARU: Melacak text box yang aktif
 };

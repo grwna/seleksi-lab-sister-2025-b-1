@@ -26,7 +26,7 @@ Proyek ini di buat sebagai salah satu tugas seleksi asisten Laboratorium Sistem 
     - [CLI](#-cli)
     - [GUI](#-gui)
 - [Petunjuk Kompilasi & Menjalankan](#-petunjuk-kompilasi-&-menjalankan)
-    - [Prasyarat](#prasyarat)
+    - [*Prerequisite*](#prerequisite)
     - [Langkah Kompilasi](#kompilasi)
     - [Menjalankan Program](#menjalankan-program)
 - [Testing](#-testing)

@@ -1,6 +1,6 @@
 #include "utils.h"
 
-// Uses Native Indexing, way faster
+// Uses MACRO indexing
 
 unsigned int string_len(const char* str) {
     unsigned int length = 0;
@@ -90,6 +90,8 @@ void big_num_multiply(int res[], int num1[], int len1, int num2[], int len2){
         if (GREATER(res[i], 9)) {
             int carry = 0;
             int current_val = res[i];
+
+            // optimasi normalisasi
             div_10000:
                 if (GREATER(current_val, 9999)) {
                     current_val = subtract(current_val, 10000);
@@ -115,27 +117,28 @@ void big_num_multiply(int res[], int num1[], int len1, int num2[], int len2){
                     goto div_10;
                 }
             res[i] = current_val;
-            res[add(i, 1)] = add(res[add(i,1)], carry);
+            res[add(i,1)] = add(res[add(i,1)], carry);
             }
         i = add(i, 1);
-        if (GREATER(subtract(add(len1, len2), 1), i)) goto normalize;
+        // if (GREATER(subtract(add(len1, len2), 1), i)) goto normalize;
+        if (GREATER(add(len1, len2), i)) goto normalize;
 }
 
 int main(){
-    char num1[1001];
-    char num2[1001];
+    char num1[1000002];
+    char num2[1000002];
     scanf("%s", num1);
     scanf("%s", num2);
     
-    int int_num1[1000];
-    int int_num2[1000];
+    int int_num1[1000001];
+    int int_num2[1000001];
 
     unsigned int len1 = parse_big_int(num1, int_num1);
     unsigned int len2 = parse_big_int(num2, int_num2);
 
-    int result[2000];
+    int result[2000002];
 
     big_num_multiply(result, int_num1, len1, int_num2, len2);
-    print_bignum(result, 2000);
+    print_bignum(result, 2000002);
     return 0;
 }

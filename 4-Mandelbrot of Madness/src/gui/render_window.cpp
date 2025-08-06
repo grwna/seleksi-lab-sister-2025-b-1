@@ -27,9 +27,19 @@ void RenderWindow::handleEvents() {
 void RenderWindow::update() {
     // Cek flag dari SharedState
     if (m_sharedState.needs_update) {
+        unsigned int newWidth = m_sharedState.params.width;
+        unsigned int newHeight = m_sharedState.params.height;
+
         // Resize jendela jika perlu
-        if (m_window.getSize().x != m_sharedState.params.width || m_window.getSize().y != m_sharedState.params.height) {
-            m_window.setSize({(unsigned int)m_sharedState.params.width, (unsigned int)m_sharedState.params.height});
+        if (m_window.getSize().x != newWidth || m_window.getSize().y != newHeight) {
+            m_window.setSize({newWidth, newHeight});
+            
+            // (PENTING) Perbarui view agar sesuai dengan ukuran jendela baru.
+            // Tanpa ini, area gambar tidak akan menyesuaikan dan gambar akan terpotong.
+            sf::View view = m_window.getDefaultView();
+            view.setSize(static_cast<float>(newWidth), static_cast<float>(newHeight));
+            view.setCenter(static_cast<float>(newWidth) / 2.f, static_cast<float>(newHeight) / 2.f);
+            m_window.setView(view);
         }
         
         regenerateTexture();
@@ -38,6 +48,7 @@ void RenderWindow::update() {
         m_sharedState.needs_update = false;
     }
 }
+
 
 void RenderWindow::draw() {
     m_window.clear(sf::Color::Black);
@@ -59,15 +70,16 @@ void RenderWindow::regenerateTexture() {
 
     vector<Color> pixels;
 
-    if (m_sharedState.params.width == 0 || m_sharedState.params.height == 0){
-        cout << "Width/Heigth must be > 0" << endl;
-        if (m_sharedState.params.width == 0 ) m_sharedState.params.width = 1;
-        if (m_sharedState.params.height == 0 ) m_sharedState.params.height = 1;
-        return;
-    }
-
+    cout << "("; 
     if (m_sharedState.params.mode == Mode::SERIAL) {
         pixels = mandelbrotSerial(m_sharedState.params.width, m_sharedState.params.height, m_sharedState.params.max_iterations);
+        cout << "Serial"; 
+    } else if (m_sharedState.params.mode == Mode::CPU) {
+        pixels = mandelbrotCPU(m_sharedState.params.width, m_sharedState.params.height, m_sharedState.params.max_iterations);
+        cout << "CPU"; 
+    } else if (m_sharedState.params.mode == Mode::GPU) {
+        pixels = mandelbrotGPU(m_sharedState.params.width, m_sharedState.params.height, m_sharedState.params.max_iterations);
+        cout << "GPU"; 
     }
     // (Tambahkan else if untuk mode CPU dan GPU di sini)
 
@@ -89,6 +101,6 @@ void RenderWindow::regenerateTexture() {
 
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> duration = end - start;
-    cout << "(" << m_sharedState.params.width << ", " << m_sharedState.params.height << ", " << m_sharedState.params.max_iterations << ")";
+    cout  << ", " << m_sharedState.params.width << ", " << m_sharedState.params.height << ", " << m_sharedState.params.max_iterations << ")";
     cout  << " Work done in: " << duration.count() << " seconds" << endl;
 }
