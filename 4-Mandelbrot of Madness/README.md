@@ -18,21 +18,21 @@ Proyek ini di buat sebagai salah satu tugas seleksi asisten Laboratorium Sistem 
 
 
 ## 📑 Daftar Isi
-- [Fitur](#-fitur)
-- [Deskripsi Implementasi](#-deskripsi-implementasi)
-    - [Serial](#-serial)
-    - [CPU](#-paralel-cpu-(openmp))
-    - [GPU](#-akselerasi-gpu-(cuda))
-    - [CLI](#-cli)
-    - [GUI](#-gui)
-- [Petunjuk Kompilasi & Menjalankan](#-petunjuk-kompilasi-&-menjalankan)
+- [Fitur](#fitur)
+- [Deskripsi Implementasi](#deskripsi-implementasi)
+    - [Serial](#serial)
+    - [CPU](#paralel-cpu-(openmp))
+    - [GPU](#akselerasi-gpu-(cuda))
+    - [CLI](#cli)
+    - [GUI](#gui)
+- [Petunjuk Kompilasi & Menjalankan](#petunjuk-kompilasi-&-menjalanka)
     - [*Prerequisite*](#prerequisite)
     - [Langkah Kompilasi](#kompilasi)
     - [Menjalankan Program](#menjalankan-program)
-- [Testing](#-testing)
+- [Testing](#testing)
     - [Hasil Benchmarking](#hasil-benchmarking)
     - [Contoh Hasil Gambar](#contoh-hasil-gambar)
-    - [Video Demo]()
+    - [Video Demo](#video-demo)
     
 <br>
 
