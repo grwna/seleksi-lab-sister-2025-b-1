@@ -56,4 +56,4 @@ Konfigurasi/*Command* yang digunakan pada VM sebelum di-*clone* (artinya ini ber
 ### *Development*
 *Development* dilakukan pada Windows sebagai *host* OS dan menggunakan PowerShell untuk terhubung ke masing-masing VM melalui SSH menggunakan alamat dari *Host-only adapter*.
 
-<img src="../img/dns-dev.png" alt="Setup Development" width="700">
+<img src="../img/dns-dev.png" alt="Setup Development">
