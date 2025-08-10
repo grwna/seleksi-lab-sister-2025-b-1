@@ -2,41 +2,41 @@ import os
 import sys
 
 IF = "enp0s3"
-DNS_ADDR = "192.168.100.10" # VM 1
 
 def run_command(perintah):
     print(f"[*] Running command: {perintah}")
     if os.system(perintah) != 0:
-        print(f"[!] Command failed: {perintah}. Exiting...")
+        print(f"[-] Command failed: {perintah}. Exiting...")
         sys.exit(1)
 
 def set_ip_dhcp():
     print("\n[+] Settting up DHCP...")
 
     run_command(f"sudo nmcli con mod {IF} ipv4.method auto")
-    run_command(f"sudo nmcli con mod {IF} ipv4.dns ''")
+    run_command(f"sudo nmcli con mod {IF} ipv4.addresses '' ipv4.dns ''")
     run_command(f"sudo nmcli con up {IF}")
 
     print("\n[✓] DHCP configuration finished. Check IP with 'ip a'.")
 
 def set_ip_manual():
     print("\n[+] Starting manual IP configuration...")
-    
-    ip_client = input(" > Enter IP for current device (eg. 192.168.100.30): ")
-    prefix_client = input(" > Enter subnet prefix (eg. 24): ")
+    print("Network address is at 192.168.100.0/24")
+
+    ip_client = input(" > Enter IP for current device: ")
+    prefix_client = input(" > Enter subnet prefix: ")
     print()
 
-    ip_dns =  input(" > Enter IP for dns server (eg. 192.168.100.10): ")
+    ip_dns =  input(" > Enter IP for dns server: ")
     print()
 
     
     if not ip_client or not prefix_client:
-        print("[!] Client's IP and prefix cannot be emtpy!.")
+        print("[!] Client's IP and prefix cannot be empty!.")
         return
     
     if not ip_dns:
-        print("[!] DHCP IP is empty. Using default DNS address")
-        ip_dns = DNS_ADDR
+        print("[!] DNS address cannot be empty")
+        return
 
     full_addr_client = f"{ip_client}/{prefix_client}"
     full_addr_dns = f"{ip_dns}"
@@ -54,24 +54,28 @@ def set_ip_manual():
 
 def main():
     while True:
-        print("\n--- Client Network Configuration ---")
+        print()
+        print()
+        print("==========================================")
+        print("     NETWORK CONFIGURATIONS - VM 3")
+        print("==========================================")
         print("1. Set IP with DHCP")
         print("2. Set IP Manually")
         print("3. Exit")
+        print("------------------------------------------")
         
         choice = input("(1/2/3): ")
         
         if choice == '1':
             set_ip_dhcp()
-            break
         elif choice == '2':
             set_ip_manual()
-            break
         elif choice == '3':
             print("Exiting...")
             break
         else:
-            print("[!] Invalid choice. Please try again!")
+            print("[!] Invalid choice!, try again.")
+            input("Press Enter to continue...")
 
 if __name__ == "__main__":
     main()
