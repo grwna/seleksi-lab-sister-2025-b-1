@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e # Stop script on failed commands
+set -e
 
 # ============================================
 #       SCRIPT KONFIGURASI DNS SERVER
@@ -8,6 +8,11 @@ set -e # Stop script on failed commands
 DOMAIN_NAME="grwna.sister.acc"
 IP_DNS="192.168.100.10"
 IP_REVERSE_PROXY="192.168.100.40"
+
+echo "[+] Downloading required files..."
+sudo curl -o /var/named/named.ca https://www.internic.net/domain/named.root
+sudo mkdir /var/named/data
+sudo chown named:named /var/named/data
 
 echo "[+] Creating BIND config file /etc/named.conf..."
 sudo tee /etc/named.conf > /dev/null <<EOF
@@ -54,7 +59,8 @@ EOF
 echo "[✓] DNS configuration finished."
 
 echo "[*] Activating DNS service"
-sudo systemctl enable --now named.service
+sudo systemctl enable named.service
+sudo systemctl restart named.service
 
 echo ""
 echo "[✓] DNS Server configuration finished!"

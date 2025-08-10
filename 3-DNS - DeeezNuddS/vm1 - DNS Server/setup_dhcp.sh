@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e # Stop script on failed commands
+set -e
 
 # ============================================
 #       SCRIPT KONFIGURASI DHCP SERVER
@@ -30,7 +30,8 @@ EOF
 echo "[✓] DHCP configuration finished."
 
 echo "[*] Activating DHCP service..."
-sudo systemctl enable --now dhcpd4.service
+sudo systemctl enable dhcpd4.service
+sudo systemctl restart dhcpd4.service
 
 echo ""
 echo "[✓] DHCP Server configuration finished!"
