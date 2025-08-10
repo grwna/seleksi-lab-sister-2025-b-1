@@ -125,20 +125,20 @@ void big_num_multiply(int res[], int num1[], int len1, int num2[], int len2){
 }
 
 int main(){
-    char num1[1000002];
-    char num2[1000002];
+    char num1[1002];
+    char num2[1002];
     scanf("%s", num1);
     scanf("%s", num2);
     
-    int int_num1[1000001];
-    int int_num2[1000001];
+    int int_num1[1001];
+    int int_num2[1001];
 
     unsigned int len1 = parse_big_int(num1, int_num1);
     unsigned int len2 = parse_big_int(num2, int_num2);
 
-    int result[2000002];
+    int result[2002];
 
     big_num_multiply(result, int_num1, len1, int_num2, len2);
-    print_bignum(result, 2000002);
+    print_bignum(result, 2002);
     return 0;
 }
