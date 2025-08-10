@@ -18,21 +18,23 @@ sudo iptables -P INPUT DROP
 sudo iptables -P FORWARD DROP
 sudo iptables -P OUTPUT DROP
 
-echo "[+] Mengizinkan trafik dari koneksi yang sudah ada..."
-sudo iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-
 echo "[+] Allowing localhost traffic..."
 sudo iptables -A INPUT -i lo -j ACCEPT
-
-# BONUS 1
-echo "[+] Allowing inbound traffic to port 80 (HTTP)..."
-sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 
 # BONUS 2
 # Block range  192.168.100.128 - 192.168.100.255 
 BLOCKED_RANGE="192.168.100.128/25"
 echo "[+]  Blocking IP in range $BLOCKED_RANGE..."
 sudo iptables -A INPUT -s $BLOCKED_RANGE -j DROP
+
+# BONUS 1
+echo "[+] Allowing inbound traffic to port 80 (HTTP)..."
+sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+
+
+echo "[+] Allowing traffic to and from already established connections..."
+sudo iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
 # BONUS 3
 echo "[+] Allowing outbound traffic to port 8080..."

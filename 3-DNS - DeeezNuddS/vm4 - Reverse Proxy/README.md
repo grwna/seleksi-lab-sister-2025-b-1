@@ -27,13 +27,15 @@ Spesifikasi *firewall* adalah sebagai berikut.
 - Blokir akses client pada ip range tertentu (ip dibebaskan)
 - Hanya memperbolehkan traffic dengan target port 8080
 
-*Firewall* tidak aktif dengan sendirinya, kita perlu mengaktifkannya dengan skrip `setup_firewall.sh`. Selain itu *firewall* juga tidak disimpan permanen, jika VM dimatikan *rules firewall* akan reset jadi `setup_firewall.sh` harus dijalankan ulang setiap kali menghidupkan VM.
+*Firewall* tidak aktif dengan sendirinya, kita perlu mengaktifkannya dengan skrip `setup_firewall.sh`. Selain itu *firewall* juga tidak disimpan permanen, jika VM dimatikan *rules firewall* akan reset jadi `setup_firewall.sh` harus dijalankan ulang setiap kali menghidupkan VM. Gunakan `reset_firewall.sh` untuk mematikan *rules firewall*.
+
 
 Untuk melakukan *testing* terhadap *firewall* berikut hal yang dapat dilakukan berdasarkan konfigurasi yang sudah ada <br>
 
 - **Hanya bolehkan HTTP *traffic*** <br>
 Port yang berjalan pada VM 4 hanyalah 80 (http), 22 (ssh), dan 21 (ftp). <br>
-Coba gunakan `nc -zv -w 10 grwna.sister.acc <port>` atau `nc -zv -w 10 192.168.100.40`, jika hasil menunjukkan `open` maka *firewall* gagal atau tidak aktif, jika melewati 10 detik dan terjai *timeout* maka *firewall* hidup.
+Coba gunakan `nc -zv -w 10 grwna.sister.acc <port>` atau `nc -zv -w 10 192.168.100.40 <port>` dengan port 21 atau 22 pada VM 1, 2 atau 3, jika hasil menunjukkan `open` maka *firewall* gagal atau tidak aktif, jika melewati 10 detik dan terjadi *timeout* maka *firewall* hidup. <br>
+Perlu diperhatikan bahwa *firewall* tidak memblokir *traffic* SSH dari *host machine* agar sambungan SSH tidak terputus.
 
 - **Blokir *client* pada *ip range* tertentu** <br>
 IP yang diblokir berada di 192.168.100.128/25, yaitu 192.168.100.128 hingga 192.168.100.255. Ubah IP *client* menjadi salah satu IP pada *range* tersebut lalu coba akses web.

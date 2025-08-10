@@ -19,7 +19,7 @@ Setup jaringan sederhana yang memiliki DNS server, HTTP server, dan reverse prox
 | Firewall pada reverse proxy | Bonus | ✅ |
 | OS CLI-only                 | Bonus | ✅ |
 
-**Link Video:** 
+**Link Video:** [Youtube](https://youtu.be/WW3rB_1ZUXs) or [Gdrive](https://drive.google.com/file/d/1gqhOxdmBF_laDMUW8yCaGnAQwgPgOF7T/view?usp=drive_link)
 
 <br>
 

@@ -14,6 +14,6 @@ VM 3 digunakan sebagai Client, yang akan mengakses *webpage*. Untuk melakukan te
     sudo pacman -S python-requests
 
     sudo nmcli con add type ethernet ifname enp0s3 con-name enp0s3
-    # Set ip manual atau dengan DHCP melalui program 
+    # Set alamat ip dan dns secara manual atau dengan DHCP melalui program 
 ```
 Jalankan program melalui `main.py`.

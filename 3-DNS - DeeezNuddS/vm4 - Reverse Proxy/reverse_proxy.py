@@ -34,15 +34,19 @@ if __name__ == "__main__":
     while True:
         client_socket, addr = server_socket.accept()
         print(f"\n[+] Accepting connection from {addr[0]}:{addr[1]}...")
-        
+        target_socket = None
 
-        target_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
+        client_socket.settimeout(5)
+
         try:
             # terima data dari client dan teruskan ke target
             request = client_socket.recv(BUFF_SIZE)
             if request:
                 port = parse_header(request)
+
+                print(f"\n[+] Connecting to {TARGET_HOST}:{port}...")
+                target_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                target_socket.settimeout(5)
                 target_socket.connect((TARGET_HOST, port))
                 target_socket.sendall(request)
 
