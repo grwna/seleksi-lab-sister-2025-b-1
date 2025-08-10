@@ -5,9 +5,9 @@ Setup jaringan sederhana yang memiliki DNS server, HTTP server, dan reverse prox
 <br>
 
 ## Author
-| Nama              | NIM      | Github                            |
-| ----------------- | -------- | --------------------------------- |
-| M. Rayhan Farrukh | 13523035 | [grwna](https://github.com/grwna) |
+| Nama              | NIM      |
+| ----------------- | -------- |
+| M. Rayhan Farrukh | 13523035 |
 
 <br>
 
@@ -18,6 +18,8 @@ Setup jaringan sederhana yang memiliki DNS server, HTTP server, dan reverse prox
 | DHCP server                 | Bonus | ✅ |
 | Firewall pada reverse proxy | Bonus | ✅ |
 | OS CLI-only                 | Bonus | ✅ |
+
+**Link Video:** 
 
 <br>
 
@@ -40,7 +42,7 @@ Selain itu, setiap VM menggunakan 3 jenis *Network Adapter*.
 - *Host-only*. Untuk memungkinkan SSH, mempermudah proses *development*
 - NAT. Agar VM terhubung ke internet, untuk mengunduh *package* atau hal-hal lain yang diperlukan.
 
->![note]
+>[!note]
 >*Adapter* NAT akan dimatikan setelah proses *development* selesai agar VM tidak terhubung ke internet.
 
 <br>
@@ -52,8 +54,9 @@ Konfigurasi/*Command* yang digunakan pada VM sebelum di-*clone* (artinya ini ber
     sudo pacman -S vim
     sudo pacman -S fastfetch
 ```
+<br>
 
 ### *Development*
-*Development* dilakukan pada Windows sebagai *host* OS dan menggunakan PowerShell untuk terhubung ke masing-masing VM melalui SSH menggunakan alamat dari *Host-only adapter*.
+*Development* dilakukan pada Windows sebagai *host* OS dan menggunakan PowerShell untuk terhubung ke masing-masing VM melalui SSH menggunakan alamat dari *Host-only adapter*. Konfigurasi untuk SSH ada di `sshd_config`
 
 <img src="../img/dns-dev.png" alt="Setup Development">
