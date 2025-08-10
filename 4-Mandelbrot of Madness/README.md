@@ -8,14 +8,24 @@ Proyek ini di buat sebagai salah satu tugas seleksi asisten Laboratorium Sistem 
 
 <br>
 
-
 ## Author
-| Nama              | NIM      | Github                            |
-| ----------------- | -------- | --------------------------------- |
-| M. Rayhan Farrukh | 13523035 | [grwna](https://github.com/grwna) |
+| Nama              | NIM      |
+| ----------------- | -------- |
+| M. Rayhan Farrukh | 13523035 |
 
 <br>
 
+## Tabel Spesifikasi
+| Spesifikasi          | Sifat | Status |
+| -------------------- | ----- | ------ |
+| Implementasi Serial  | Wajib | ✅ |
+| Paralel CPU          | Wajib | ✅ |
+| Akselerasi GPU       | Bonus | ✅ |
+| GUI Sederhana        | Bonus | ✅ |
+| Himpunan Julia       | Bonus | ❌ |
+| Kapabilitas Zoom     | Bonus | ❌ |
+
+<br>
 
 ## 📑 Daftar Isi
 - [Fitur](#fitur)
@@ -34,13 +44,6 @@ Proyek ini di buat sebagai salah satu tugas seleksi asisten Laboratorium Sistem 
     - [Contoh Hasil Gambar](#contoh-hasil-gambar)
     - [Video Demo](#video-demo)
     
-<br>
-
-
-## ✨Fitur
-- Generator dengan tiga mode (serial, CPU, GPU)
-- Dapat dijalankan melalui CLI atau GUI
-- 
 
 <br>
 
@@ -156,6 +159,6 @@ Berikut adalah contoh gambar yang dihasilkan oleh program dengan resolusi 1200x8
 <img width="800"  alt="Image" align="center" src="https://private-user-images.githubusercontent.com/163623355/474399112-5593ec7d-b6d5-4511-a74d-5b0f9b1c65e1.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTQzODMxMjgsIm5iZiI6MTc1NDM4MjgyOCwicGF0aCI6Ii8xNjM2MjMzNTUvNDc0Mzk5MTEyLTU1OTNlYzdkLWI2ZDUtNDUxMS1hNzRkLTViMGY5YjFjNjVlMS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwODA1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDgwNVQwODMzNDhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0zNTlhYTZhZmY0N2NkMDY2NTQyZTZjMTYyZTNjODc3NjRlOGRhMmNmMmMyMzc2YmM4ZDliNDFjZjhlYzgxOTFjJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.btDN-movim1IdlJHvAXjqeKaZbbnwWvHd6zUW2ZSNfU" />
 
 ### Video Demo
-- GUI - https://youtu.be/IWVH-m3sh3Y
+- GUI - [Youtube](https://youtu.be/IWVH-m3sh3Y) or [GDrive](https://drive.google.com/file/d/1kxe2C880wKbDk3AwJe4uYkV5GlJsaUTq/view?usp=drive_link)
 - Julia Set -
 - Zoom -
