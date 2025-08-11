@@ -81,7 +81,7 @@ ull mult_high(ull a, ull b) {
 
     ull high_part = add(p11, (mid_sum >> 32));
     
-    if (mid_sum < temp) {
+    if (LESSER_ULL(mid_sum, temp)) {
         high_part = add(high_part, (1ULL << 32));
     }
     

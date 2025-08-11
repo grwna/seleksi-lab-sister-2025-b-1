@@ -19,3 +19,4 @@ int GREATER(int a, int b);
 int GREATER_OR_EQUAL(int a, int b);
 int LESSER(int a, int b);
 int LESSER_OR_EQUAL(int a, int b);
+int LESSER_ULL(ull a, ull b); // USed once in mult_high

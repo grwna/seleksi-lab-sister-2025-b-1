@@ -25,3 +25,7 @@ int LESSER(int a, int b){
 int LESSER_OR_EQUAL(int a, int b){
     return LESSER(a, add(b,1));
 }
+
+int LESSER_ULL(ull a, ull b) {
+    return (sub(a, b) >> 63) & 1;
+}
