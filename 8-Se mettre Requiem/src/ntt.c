@@ -1,10 +1,10 @@
-#include "ntt.h"
+#include "headers/ntt.h"
 
 #define MAX_N 2097152 // 2^21, cukup untuk 10^1mil
 
-static ull ntt_a[MAX_N];
-static ull ntt_b[MAX_N];
-static ull ntt_c[MAX_N];
+ull ntt_a[MAX_N];
+ull ntt_b[MAX_N];
+ull ntt_c[MAX_N];
 
 ull power(ull a, ull b, ull modulo, ull mu) {
     ull res = 1;
@@ -56,8 +56,8 @@ void ntt(ull* arr, int n, ull prime, ull root, ull mu, int is_inverse) {
             w_len = inverse(w_len, prime, mu);
         }
         i = 0;
+        int div_len_2 = len >> 1;
         outer_butterfly_loop:
-        int div_len_2 = div(len, 2);
             if (GREATER_OR_EQUAL(i, n)) goto outer_butterfly_end;
             ull w = 1;
             j = 0;
