@@ -1,8 +1,9 @@
 #include "headers/operations.h"
 
 ull add(ull a, ull b){
+    ull carry;
     loop:
-        ull carry = a & b;
+        carry = a & b;
         a = a ^ b;
         b = carry << 1;
     if (NOT_EQUAL(b, 0)) goto loop;
@@ -63,11 +64,37 @@ ull mod(ull a, ull b) {
     return remainder;
 }
 
-ll barrett_reduce(ll val, ll prime, unsigned __int128 mu) {
-    unsigned __int128 q = (mult(val, mu)) >> 62; 
-    ll r = sub(val, mult(q, prime));
-    // Hasilnya bisa sedikit lebih besar dari prime, jadi perlu koreksi akhir
-    if (GREATER_OR_EQUAL(r, prime)) r = sub(r, prime);
-    // if (GREATER_OR_EQUAL(r, prime)) r = sub(r, prime); // Koreksi kedua (jarang terjadi tapi aman)
+ull mult_high(ull a, ull b) {
+    ull a_lo = a & 0xFFFFFFFF;
+    ull a_hi = a >> 32;
+    ull b_lo = b & 0xFFFFFFFF;
+    ull b_hi = b >> 32;
+
+    ull p00 = mult(a_lo, b_lo);
+    ull p01 = mult(a_lo, b_hi);
+    ull p10 = mult(a_hi, b_lo);
+    ull p11 = mult(a_hi, b_hi);
+
+    ull p00_hi = p00 >> 32;
+    ull temp = add(p10, p00_hi);
+    ull mid_sum = add(temp, p01);
+
+    ull high_part = add(p11, (mid_sum >> 32));
+    
+    if (mid_sum < temp) {
+        high_part = add(high_part, (1ULL << 32));
+    }
+    
+    return high_part;
+}
+
+ull barrett_reduce(ull x, ull prime, ull m) {
+    ull q = mult_high(x, m);
+    ull r = sub(x, mult(q, prime));
+    ull difference = sub(r, prime);
+    if (EQUAL(((difference >> 63) & 1), 0)) {
+        r = difference;
+    }
+
     return r;
 }

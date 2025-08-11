@@ -44,7 +44,7 @@ int main() {
         goto carry_loop;
     carry_end:;
 
-    print_bignum(final_result, add(result_len, 5));
+    print_bignum(final_result, add(result_len, 2));
 
     return 0;
 }
