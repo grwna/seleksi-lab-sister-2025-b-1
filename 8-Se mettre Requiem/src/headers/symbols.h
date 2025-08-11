@@ -12,10 +12,6 @@ ull sub(ull a, ull b);
 #define EQUAL(A, B) (!((A) ^ (B)))
 #define NOT_EQUAL(A, B) (((A) ^ (B)))
 
-#define INDEX(arr_ptr, idx, elem_type, elem_size) \
-(*((elem_type *)add((ull)(arr_ptr), \
-(ull)mult((ull)(idx), (ull)elem_size))))
-
 
 // found from here: https://stackoverflow.com/questions/10096599/bitwise-operations-equivalent-of-greater-than-operator
 
