@@ -33,6 +33,9 @@ GUI_BIN = $(BIN)/mandelbrot_gui
 all: cli gui
 cli: $(CLI_BIN)
 gui: $(GUI_BIN)
+benchmark: 
+	@mkdir -p $(BIN)
+	$(CC) $(CFLAGS) $(SRC)/benchmark/benchmark.cpp -o $(BIN)/benchmark
 
 # --- Rules ---
 
@@ -66,6 +69,9 @@ run_cli: cli
 
 run_gui: gui
 	@./$(GUI_BIN)
+
+run_benchmark: benchmark
+	@bin/benchmark
 
 clean:
 	@echo "Cleaning up..."

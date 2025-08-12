@@ -138,27 +138,97 @@ time make run_cli < test/1.txt
 <br>
 
 ## ⚙️Testing
-### Hasil Benchmarking
-
-Berikut adalah tabel perbandingan waktu eksekusi dan _speedup_ untuk beberapa kasus
-
->[!note] 
->Pengujian dilakukan pada CPU **Intel i7-12700H** dan GPU **Nvidia GeForce RTX 3060 Laptop GPU**.
-
-| Implementasi             | Waktu Eksekusi (detik) | Speedup vs Serial  |
-| ------------------------ | ---------------------- | ------------------ |
-| **Serial**               | `[Isi waktu di sini]`  | 1.00x              |
-| **Paralel CPU (OpenMP)** | `[Isi waktu di sini]`  | `[Hitung speedup]` |
-| **GPU (CUDA)**           | `[Isi waktu di sini]`  | `[Hitung speedup]` |
-
-
-
 ### Contoh Hasil Gambar
-
 Berikut adalah contoh gambar yang dihasilkan oleh program dengan resolusi 1200x800, dan iterasi 500.
 <img width="800"  alt="Image" align="center" src="https://private-user-images.githubusercontent.com/163623355/474399112-5593ec7d-b6d5-4511-a74d-5b0f9b1c65e1.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTQzODMxMjgsIm5iZiI6MTc1NDM4MjgyOCwicGF0aCI6Ii8xNjM2MjMzNTUvNDc0Mzk5MTEyLTU1OTNlYzdkLWI2ZDUtNDUxMS1hNzRkLTViMGY5YjFjNjVlMS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwODA1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDgwNVQwODMzNDhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0zNTlhYTZhZmY0N2NkMDY2NTQyZTZjMTYyZTNjODc3NjRlOGRhMmNmMmMyMzc2YmM4ZDliNDFjZjhlYzgxOTFjJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.btDN-movim1IdlJHvAXjqeKaZbbnwWvHd6zUW2ZSNfU" />
+
+<br>
 
 ### Video Demo
 - GUI - [Youtube](https://youtu.be/IWVH-m3sh3Y) or [GDrive](https://drive.google.com/file/d/1kxe2C880wKbDk3AwJe4uYkV5GlJsaUTq/view?usp=drive_link)
 - Julia Set -
 - Zoom -
+
+<br>
+
+### Hasil *Benchmarking*
+
+Berikut adalah tabel perbandingan waktu eksekusi dan *speedup* untuk beberapa kasus. Data *benchmark* ini dapat dilihat pada `test/benchmark_cpp.txt`. Untuk hasil lainnya bisa dilihat pada `test/benchmark_python.txt`
+<br><br>
+*Speedup* yang dihitung adalah terhadap Serial, jika ingin menghitung *speedup* GPU terhadap CPU, hitung $\frac{GPU}{CPU}$.
+
+
+>[!note] 
+>Pengujian dilakukan pada CPU **Intel i7-12700H** dan GPU **Nvidia GeForce RTX 3060 Laptop GPU**.
+
+#### **Resolusi 2560x1600, Maks. Iterasi 50**
+| Implementasi             | Waktu Eksekusi (s) | Speedup vs Serial  |
+| ------------------------ | ---------------------- | ------------------ |
+| Serial               | 3.771999s  | 1.00x              |
+| Paralel CPU (OpenMP) | 0.305142s  | 12.36x |
+| GPU (CUDA)           | 0.443628s  | 8.50x |
+<br>
+
+#### **Resolusi 5120x2880, Maks. Iterasi 50**
+| Implementasi             | Waktu Eksekusi (s) | Speedup vs Serial  |
+| ------------------------ | ---------------------- | ------------------ |
+| Serial               | 13.302310s  | 1.00x              |
+| Paralel CPU (OpenMP) | 0.887590s  | 14.99x |
+| GPU (CUDA)           | 0.491955s  | 27.04x |
+<br>
+
+#### **Resolusi 7680x4320, Maks. Iterasi 50**
+| Implementasi             | Waktu Eksekusi (s) | Speedup vs Serial  |
+| ------------------------ | ---------------------- | ------------------ |
+| Serial               | 29.832759s  | 1.00x              |
+| Paralel CPU (OpenMP) | 1.955988s  | 15.25x |
+| GPU (CUDA)           | 0.589228s  | 50.63x |
+<br>
+
+#### **Resolusi 2560x1600, Maks. Iterasi 1000**
+| Implementasi             | Waktu Eksekusi (s) | Speedup vs Serial  |
+| ------------------------ | ---------------------- | ------------------ |
+| Serial               | 16.797117s  | 1.00x              |
+| Paralel CPU (OpenMP) | 1.123963s  | 14.94x |
+| GPU (CUDA)           | 0.427761s  | 39.27x |
+<br>
+
+#### **Resolusi 5120x2880, Maks. Iterasi 1000**
+| Implementasi             | Waktu Eksekusi (s) | Speedup vs Serial  |
+| ------------------------ | ---------------------- | ------------------ |
+| Serial               | 61.111722s  | 1.00x              |
+| Paralel CPU (OpenMP) | 3.746139s  | 16.31x |
+| GPU (CUDA)           | 0.459347s  | 133.04x |
+<br>
+
+#### **Resolusi 7680x4320, Maks. Iterasi 1000**
+| Implementasi             | Waktu Eksekusi (s) | Speedup vs Serial  |
+| ------------------------ | ---------------------- | ------------------ |
+| Serial               | 134.079004s  | 1.00x              |
+| Paralel CPU (OpenMP) | 7.951417s  | 16.86x |
+| GPU (CUDA)           | 0.560944s  | 239.02x |
+<br>
+
+#### **Resolusi 2560x1600, Maks. Iterasi 10000**
+| Implementasi             | Waktu Eksekusi (s) | Speedup vs Serial  |
+| ------------------------ | ---------------------- | ------------------ |
+| Serial               | 128.602930s  | 1.00x              |
+| Paralel CPU (OpenMP) | 7.721484s  | 16.66x |
+| GPU (CUDA)           | 0.571752s  | 224.9327x |
+<br>
+
+#### **Resolusi 5120x2880, Maks. Iterasi 10000**
+| Implementasi             | Waktu Eksekusi (s) | Speedup vs Serial  |
+| ------------------------ | ---------------------- | ------------------ |
+| Serial               | 469.161975s  | 1.00x              |
+| Paralel CPU (OpenMP) | 29.981395s  | 15.65x |
+| GPU (CUDA)           | 0.787035s  | 596.11x |
+<br>
+
+#### **Resolusi 7680x4320, Maks. Iterasi 10000**
+| Implementasi             | Waktu Eksekusi (s) | Speedup vs Serial  |
+| ------------------------ | ---------------------- | ------------------ |
+| Serial               | 1049.052105s  | 1.00x              |
+| Paralel CPU (OpenMP) | 66.244035s  | 15.84x |
+| GPU (CUDA)           | 1.348322s  | 778.04x |
+<br>
