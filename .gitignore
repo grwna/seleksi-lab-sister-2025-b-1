@@ -1,3 +1,5 @@
 z*
-
+.vscode*
+.gdb_history
 obj/
+bin/
