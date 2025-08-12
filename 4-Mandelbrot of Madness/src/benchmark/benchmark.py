@@ -1,46 +1,6 @@
 import subprocess
 import time
 
-dimensions = [
-    [2560, 1600],
-    [5120, 2880],
-    [7680, 4320],
-]
-
-iterations = [
-    50,
-    1000,
-    10000,
-]
-
-modes = [
-    "SERIAL",
-    "CPU",
-    "GPU",
-]
-
-results = {}
-for iter in iterations:
-    for dim in dimensions: 
-        for mode in modes:
-            inp = f"{dim[0]}\n{dim[1]}\n{iter}\n{mode}\n'none'\n'NOSAVE'"
-            curr_res = 0
-
-            for i in range(5):
-                start = time.perf_counter()
-                subprocess.run(
-                    ["bin/mandelbrot_cli"], 
-                    input=inp, 
-                    text=True, 
-                    check=True,
-                    capture_output=True
-                )
-                end = time.perf_counter() - start
-                curr_res += end
-                print(f"({dim[0]} x {dim[1]}, {iter}, {mode}) : {end}")
-            curr_res /= 5
-            print(f"Average: {curr_res}\n")
-            results[(tuple(dim), iter, mode)] = curr_res
 
 def print_benchmark_results(results):
     """
@@ -78,5 +38,51 @@ def print_benchmark_results(results):
 
         for mode, (time_str, speedup_str) in data_rows.items():
             print(f"{mode:<{mode_col_width}} | {time_str:>{time_col_width}} | {speedup_str:>{speedup_col_width}}")
-
         print('-' * total_width)
+
+dimensions = [
+    [2560, 1600],
+    [5120, 2880],
+    [7680, 4320],
+]
+
+iterations = [
+    50,
+    1000,
+    10000,
+]
+
+modes = [
+    "SERIAL",
+    "CPU",
+    "GPU",
+]
+
+results = {}
+rep_per_combo = 1
+for iter in iterations:
+    for dim in dimensions: 
+        for mode in modes:
+            inp = f"{dim[0]}\n{dim[1]}\n{iter}\n{mode}\n'none'\n'NOSAVE'"
+            curr_res = 0
+
+            for i in range(rep_per_combo):
+                start = time.perf_counter()
+                subprocess.run(
+                    ["bin/mandelbrot_cli"], 
+                    input=inp, 
+                    text=True, 
+                    check=True,
+                    capture_output=True
+                )
+                end = time.perf_counter() - start
+                curr_res += end
+                if mode == "SERIAL":
+                    serial = end
+                print(f"({dim[0]} x {dim[1]}, {iter}, {mode}) -> Time :  {end} ({serial/end}x)")
+            if rep_per_combo > 1:
+                curr_res /= rep_per_combo
+                print(f"Average: {curr_res}\n")
+            results[(tuple(dim), iter, mode)] = curr_res
+        print()
+print(print_benchmark_results(results))

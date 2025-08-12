@@ -1,0 +1,40 @@
+--- Starting Benchmark ---
+
+(2560x1600, 50 iter, SERIAL) -> Time: 3.771999s (1.00x)
+(2560x1600, 50 iter, CPU) -> Time: 0.305142s (12.36x)
+(2560x1600, 50 iter, GPU) -> Time: 0.443628s (8.50x)
+
+(5120x2880, 50 iter, SERIAL) -> Time: 13.302310s (1.00x)
+(5120x2880, 50 iter, CPU) -> Time: 0.887590s (14.99x)
+(5120x2880, 50 iter, GPU) -> Time: 0.491955s (27.04x)
+
+(7680x4320, 50 iter, SERIAL) -> Time: 29.832759s (1.00x)
+(7680x4320, 50 iter, CPU) -> Time: 1.955988s (15.25x)
+(7680x4320, 50 iter, GPU) -> Time: 0.589228s (50.63x)
+
+(2560x1600, 1000 iter, SERIAL) -> Time: 16.797117s (1.00x)
+(2560x1600, 1000 iter, CPU) -> Time: 1.123963s (14.94x)
+(2560x1600, 1000 iter, GPU) -> Time: 0.427761s (39.27x)
+
+(5120x2880, 1000 iter, SERIAL) -> Time: 61.111722s (1.00x)
+(5120x2880, 1000 iter, CPU) -> Time: 3.746139s (16.31x)
+(5120x2880, 1000 iter, GPU) -> Time: 0.459347s (133.04x)
+
+(7680x4320, 1000 iter, SERIAL) -> Time: 134.079004s (1.00x)
+(7680x4320, 1000 iter, CPU) -> Time: 7.951417s (16.86x)
+(7680x4320, 1000 iter, GPU) -> Time: 0.560944s (239.02x)
+
+(2560x1600, 10000 iter, SERIAL) -> Time: 128.602930s (1.00x)
+(2560x1600, 10000 iter, CPU) -> Time: 7.721484s (16.66x)
+(2560x1600, 10000 iter, GPU) -> Time: 0.571752s (224.93x)
+
+(5120x2880, 10000 iter, SERIAL) -> Time: 469.161975s (1.00x)
+(5120x2880, 10000 iter, CPU) -> Time: 29.981395s (15.65x)
+(5120x2880, 10000 iter, GPU) -> Time: 0.787035s (596.11x)
+
+(7680x4320, 10000 iter, SERIAL) -> Time: 1049.052105s (1.00x)
+(7680x4320, 10000 iter, CPU) -> Time: 66.244035s (15.84x)
+(7680x4320, 10000 iter, GPU) -> Time: 1.348322s (778.04x)
+
+
+--- Benchmark Finished ---
