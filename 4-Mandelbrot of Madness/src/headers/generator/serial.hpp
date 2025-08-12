@@ -3,7 +3,7 @@
 #include "../image_writer.hpp"
 #include <vector>
 
-int cardioidCheck(double real, double imag, int max_iters);
+int cardioidCheck(float real, float imag, int max_iters);
 
 int calculateMandelbrot(const Complex &c, int max_iters);
 

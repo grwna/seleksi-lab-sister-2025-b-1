@@ -3,6 +3,9 @@
 #include <fstream>
 #include <string>
 #include <cstdint>
+#include <algorithm>
+using namespace std;
+
 
 Color getColor(int n, int max_iter);
 

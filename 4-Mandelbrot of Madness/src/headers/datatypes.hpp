@@ -8,4 +8,4 @@ struct Color {
 };
 
 using Colors = vector<Color>;
-using Complex = complex<double>;
+using Complex = complex<float>;
