@@ -145,7 +145,7 @@ time make run_cli < test/1.txt
 
 ## ⚙️Testing
 ### Video Demo
-- GUI, Julia, Zoom : [Youtube]() or [Gdrive]()
+- GUI, Julia, Zoom : [Youtube](https://www.youtube.com/watch?v=p4JW2lBDAug) or [Gdrive](https://drive.google.com/file/d/1h4rVDh3Bt51qpDPtNc-F4TM7Bb8LNdkk/view?usp=drive_link)
 
 <br>
 
