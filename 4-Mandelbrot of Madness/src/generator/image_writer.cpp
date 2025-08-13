@@ -1,16 +1,24 @@
-#include "headers/image_writer.hpp"
+#include "../headers/generator/image_writer.hpp"
 
 
 Color getColor(int n, int max_iters){
+    const unsigned char bg_r = 64;
+    const unsigned char bg_g = 0;
+    const unsigned char bg_b = 0;
+    
     if (n == max_iters) return {0, 0, 0};
 
     // normalisasi
-    double t = static_cast<double>(n)/ static_cast<double> (max_iters);
+    float t = static_cast<float>(n)/ static_cast<float> (max_iters);
 
     // interpolation
-    unsigned char r = static_cast<unsigned char>(9 * (1 - t) * t * t * t * 255);
-    unsigned char g = static_cast<unsigned char>(15 * (1 - t) * (1 - t) * t * t * 255);
-    unsigned char b = static_cast<unsigned char>(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+    float interp_r = static_cast<unsigned char>(9 * (1 - t) * t * t * t * 255);
+    float interp_g = static_cast<unsigned char>(15 * (1 - t) * (1 - t) * t * t * 255);
+    float interp_b = static_cast<unsigned char>(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+
+    unsigned char r = static_cast<unsigned char>(min(255.0f, bg_r + interp_r));
+    unsigned char g = static_cast<unsigned char>(min(255.0f, bg_g + interp_g));
+    unsigned char b = static_cast<unsigned char>(min(255.0f, bg_b + interp_b));
 
     return {r, g, b};
 }
