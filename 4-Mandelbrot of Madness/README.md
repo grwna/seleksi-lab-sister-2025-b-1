@@ -2,7 +2,7 @@
 
 ## Mandelbrot Set Generator with CPU & GPU Acceleration
 
-<img width="800"  alt="Image" align="center" src="https://private-user-images.githubusercontent.com/163623355/474342421-3cc523b6-fe23-40fd-ad6d-0ab436c16900.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTQzODYwMzUsIm5iZiI6MTc1NDM4NTczNSwicGF0aCI6Ii8xNjM2MjMzNTUvNDc0MzQyNDIxLTNjYzUyM2I2LWZlMjMtNDBmZC1hZDZkLTBhYjQzNmMxNjkwMC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwODA1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDgwNVQwOTIyMTVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1hZmQ2ODI5Zjg0YWRiMTRhMmE2MzA2OGZhZDZiMDNjMmI3NTE2ZWU4Nzg2ODk4N2I5YWQ5MTVhZWUyMmQ4NjZiJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.yY5EpX-FDo-Er0O_udnnWmYYwRkc21SUcQZf3dNs06k" />
+<img width="800"  alt="Image" align="center" src="../img/main.png" />
 
 Proyek ini di buat sebagai salah satu tugas seleksi asisten Laboratorium Sistem Terdistribusi. Program dapat menghasilkan gambar himpunan Mandelbrot dalam bentuk `.bmp` menggunakan  tiga jenis implementasi: serial, paralel CPU dengan OpenMP, dan akselerasi GPU menggunakan CUDA. Program ini ditulis dalam bahasa C++
 
@@ -22,8 +22,8 @@ Proyek ini di buat sebagai salah satu tugas seleksi asisten Laboratorium Sistem 
 | Paralel CPU          | Wajib | ✅ |
 | Akselerasi GPU       | Bonus | ✅ |
 | GUI Sederhana        | Bonus | ✅ |
-| Himpunan Julia       | Bonus | ❌ |
-| Kapabilitas Zoom     | Bonus | ❌ |
+| Himpunan Julia       | Bonus | ✅ |
+| Kapabilitas Zoom & Pan     | Bonus | ✅ |
 
 <br>
 
@@ -40,9 +40,9 @@ Proyek ini di buat sebagai salah satu tugas seleksi asisten Laboratorium Sistem 
     - [Langkah Kompilasi](#kompilasi)
     - [Menjalankan Program](#menjalankan-program)
 - [Testing](#testing)
-    - [Hasil Benchmarking](#hasil-benchmarking)
-    - [Contoh Hasil Gambar](#contoh-hasil-gambar)
     - [Video Demo](#video-demo)
+    - [Contoh Hasil Gambar](#contoh-hasil-gambar)
+    - [Hasil Benchmarking](#hasil-benchmarking)
     
 
 <br>
@@ -63,10 +63,11 @@ Untuk akselerasi GPU, implementasi serial disesuaikan untuk dapat dijalankan pad
 
 ### 📟CLI
 
-Mode CLI hanya sederhana, dan sebenarnya tidak ada *interface* sama sekali. Mode CLI hanya digunakan untuk memasukkan input dari file.
+Mode CLI hanya sederhana, dan sebenarnya tidak ada *interface* sama sekali. Mode CLI hanya digunakan untuk memasukkan input dari file. Tidak seperti mode GUI, pada mode CLI tidak dapat mengubah *color scheme* melalui input biasa. Jika ingin mengubah *color scheme*, maka ubah lah pada kode sumber (`src/cli.cpp`). 
+
 ### 💻GUI
 
-GUI menampilkan satu *window* untuk mengatur parameter *image*,  dan satu *window* lain untuk menampilkan *image* hasil generasi. Parameter yang dapat diatur adalah mode kalkulasi (serial, cpu, gpu), dimensi gambar, serta *max iterations*.  Untuk mode GUI, tidak ada fitur untuk menyimpan gambar, gunakanlah GUI untuk mengecek *preview* dari gambar, kemudian gunakan parameter tersebut pada mode CLI untuk menyimpan gambar. Juga tidak ada multitasking, jadi ketika *image* di-*render*, GUI akan *freeze*.
+GUI menampilkan satu *window* untuk mengatur parameter *image* yang dibuat dengan dear ImGui, dan dua *window* lain untuk menampilkan *image* hasil generasi Mandelbrot, atau Julia.  Untuk mode GUI, tidak ada fitur untuk menyimpan gambar, gunakanlah GUI untuk mengecek *preview* dari gambar, kemudian gunakan parameter tersebut pada mode CLI untuk menyimpan gambar (atau bisa di-*screenshot*). Juga tidak ada multitasking, jadi ketika *image* di-*render*, GUI akan *freeze*.
 
 <br>
 
@@ -135,21 +136,32 @@ Contoh penggunaan:
 time make run_cli < test/1.txt
 ```
 
+>[!tip]
+> Pada mode GUI, gunakan mouse scroll wheel untuk melakukan zoom, input field zoom hanya untuk menampilkan nilai saja
+
 <br>
+
+
 
 ## ⚙️Testing
-### Contoh Hasil Gambar
-Berikut adalah contoh gambar yang dihasilkan oleh program dengan resolusi 1200x800, dan iterasi 500.
-<img width="800"  alt="Image" align="center" src="https://private-user-images.githubusercontent.com/163623355/474399112-5593ec7d-b6d5-4511-a74d-5b0f9b1c65e1.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTQzODMxMjgsIm5iZiI6MTc1NDM4MjgyOCwicGF0aCI6Ii8xNjM2MjMzNTUvNDc0Mzk5MTEyLTU1OTNlYzdkLWI2ZDUtNDUxMS1hNzRkLTViMGY5YjFjNjVlMS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwODA1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDgwNVQwODMzNDhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0zNTlhYTZhZmY0N2NkMDY2NTQyZTZjMTYyZTNjODc3NjRlOGRhMmNmMmMyMzc2YmM4ZDliNDFjZjhlYzgxOTFjJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.btDN-movim1IdlJHvAXjqeKaZbbnwWvHd6zUW2ZSNfU" />
-
-<br>
-
 ### Video Demo
-- GUI - [Youtube](https://youtu.be/IWVH-m3sh3Y) or [GDrive](https://drive.google.com/file/d/1kxe2C880wKbDk3AwJe4uYkV5GlJsaUTq/view?usp=drive_link)
-- Julia Set -
-- Zoom -
+- GUI, Julia, Zoom : [Youtube]() or [Gdrive]()
 
 <br>
+
+### Contoh Hasil Gambar
+#### **Mandelbrot**
+<img width="800"  alt="Image" align="center" src="../img/mandel1.png" />
+<img width="800"  alt="Image" align="center" src="../img/mandel2.png" />
+<img width="800"  alt="Image" align="center" src="../img/mandel3.png" />
+
+#### **Julia**
+<img width="800"  alt="Image" align="center" src="../img/julia1.png" />
+<img width="800"  alt="Image" align="center" src="../img/julia2.png" />
+<img width="800"  alt="Image" align="center" src="../img/julia3.png" />
+
+<br>
+
 
 ### Hasil *Benchmarking*
 
