@@ -3,20 +3,21 @@
 #include <chrono>
 #include <iostream>
 
-Colors mandelbrotSerial(int width, int height, int max_iters, const Bounds& bounds);
-Colors mandelbrotCPU(int width, int height, int max_iters, const Bounds& bounds);
-Colors mandelbrotGPU(int width, int height, int max_iters, const Bounds& bounds);
-Color getColor(int n, int max_iters);
+
+Colors mandelbrotSerial(int width, int height, int max_iters, const Bounds& bounds, const ColorScheme& scheme);
+Colors mandelbrotCPU(int width, int height, int max_iters, const Bounds& bounds, const ColorScheme& scheme);
+Colors mandelbrotGPU(int width, int height, int max_iters, const Bounds& bounds, const ColorScheme& scheme);
+Color getColor(int n, int max_iters, const ColorScheme& scheme);
 
 
 MandelbrotWindow::MandelbrotWindow(SharedState& state)
     : m_sharedState(state),
-      m_window(sf::VideoMode(state.mandelbrot_params.width, state.mandelbrot_params.height), "Mandelbrot Set") 
-{
+      m_window(sf::VideoMode(state.mandelbrot_params.width, state.mandelbrot_params.height), "Mandelbrot Set") {
+
     m_window.setFramerateLimit(60);
-    m_window.setPosition({550, 50});
+    m_window.setPosition({500, 50});
     if (!m_texture.create(m_sharedState.mandelbrot_params.width, m_sharedState.mandelbrot_params.height)) {
-        std::cerr << "MandelbrotWindow: Failed to create texture." << std::endl;
+        cerr << "MandelbrotWindow: Failed to create texture." << endl;
     }
     m_sprite.setTexture(m_texture);
 }
@@ -35,12 +36,10 @@ void MandelbrotWindow::handleEvents() {
             m_window.close();
         }
 
-        // --- Zooming with Mouse Wheel ---
         if (event.type == sf::Event::MouseWheelScrolled) {
             zoom(event.mouseWheelScroll.delta, event.mouseWheelScroll.x, event.mouseWheelScroll.y);
         }
 
-        // --- Panning with Mouse Drag ---
         if (event.type == sf::Event::MouseButtonPressed) {
             if (event.mouseButton.button == sf::Mouse::Left) {
                 m_is_panning = true;
@@ -52,12 +51,12 @@ void MandelbrotWindow::handleEvents() {
                 m_is_panning = false;
             }
         }
+        // pan or julia?
         if (event.type == sf::Event::MouseMoved) {
             if (m_is_panning) {
                 pan({event.mouseMove.x, event.mouseMove.y});
-                m_pan_start_pos = {event.mouseMove.x, event.mouseMove.y}; // Update start for next drag segment
+                m_pan_start_pos = {event.mouseMove.x, event.mouseMove.y};
             }
-            // Update Julia constant when not panning
             else if (m_sharedState.show_julia_window) {
                 updateJuliaConstant(event.mouseMove.x, event.mouseMove.y);
             }
@@ -75,27 +74,24 @@ void MandelbrotWindow::updateJuliaConstant(int mouseX, int mouseY) {
 }
 
 void MandelbrotWindow::zoom(float delta, int mouseX, int mouseY) {
-    // Zoom factor - 1.1 means 10% zoom in/out
     const float zoom_factor = 1.1f;
     sf::Vector2u windowSize = m_window.getSize();
 
-    // Get the complex coordinate at the mouse position
     double mouse_real = m_bounds.x_min + ((double)mouseX / windowSize.x) * (m_bounds.x_max - m_bounds.x_min);
     double mouse_imag = m_bounds.y_min + ((double)mouseY / windowSize.y) * (m_bounds.y_max - m_bounds.y_min);
 
     double new_x_range, new_y_range;
 
-    if (delta > 0) { // Zoom in
+    if (delta > 0) {
         new_x_range = (m_bounds.x_max - m_bounds.x_min) / zoom_factor;
         new_y_range = (m_bounds.y_max - m_bounds.y_min) / zoom_factor;
         m_sharedState.mandelbrot_params.zoom *= zoom_factor;
-    } else { // Zoom out
+    } else {
         new_x_range = (m_bounds.x_max - m_bounds.x_min) * zoom_factor;
         new_y_range = (m_bounds.y_max - m_bounds.y_min) * zoom_factor;
         m_sharedState.mandelbrot_params.zoom /= zoom_factor;
     }
 
-    // Center the new bounds around the mouse position
     double ratio_x = ((double)mouseX / windowSize.x);
     double ratio_y = ((double)mouseY / windowSize.y);
     m_bounds.x_min = mouse_real - new_x_range * ratio_x;
@@ -133,7 +129,7 @@ void MandelbrotWindow::render() {
 }
 
 void MandelbrotWindow::regenerateTexture() {
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
     RenderParameters& params = m_sharedState.mandelbrot_params;
     if (m_window.getSize().x != params.width || m_window.getSize().y != params.height) {
         m_window.setSize({params.width, params.height});
@@ -144,18 +140,18 @@ void MandelbrotWindow::regenerateTexture() {
         m_window.setView(view);
     }
     Colors pixels;
-    std::string modeStr = "Unknown";
+    string modeStr = "Unknown";
     switch(m_sharedState.mode) {
         case Mode::SERIAL:
-            pixels = mandelbrotSerial(params.width, params.height, params.max_iterations, m_bounds);
+            pixels = mandelbrotSerial(params.width, params.height, params.max_iterations, m_bounds, m_sharedState.color_scheme);
             modeStr = "Serial Mandelbrot";
             break;
         case Mode::CPU:
-            pixels = mandelbrotCPU(params.width, params.height, params.max_iterations, m_bounds);
+            pixels = mandelbrotCPU(params.width, params.height, params.max_iterations, m_bounds, m_sharedState.color_scheme);
             modeStr = "CPU Mandelbrot";
             break;
         case Mode::GPU:
-            pixels = mandelbrotGPU(params.width, params.height, params.max_iterations, m_bounds);
+            pixels = mandelbrotGPU(params.width, params.height, params.max_iterations, m_bounds, m_sharedState.color_scheme);
             modeStr = "GPU Mandelbrot";
             break;
     }
@@ -171,8 +167,8 @@ void MandelbrotWindow::regenerateTexture() {
         m_texture.update(image);
     }
     m_sprite.setTexture(m_texture, true);
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> duration = end - start;
-    std::cout << "(" << modeStr << ", " << params.width << "x" << params.height << ", " << params.max_iterations << " iters)";
-    std::cout << " Work done in: " << duration.count() << " seconds" << std::endl;
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    cout << "(" << modeStr << ", " << params.width << "x" << params.height << ", " << params.max_iterations << " iters)";
+    cout << " Work done in: " << duration.count() << " seconds" << endl;
 }
