@@ -5,24 +5,26 @@ NVCC = nvcc
 ARCH = -arch=sm_86 # <---------- Sesuaikan ini (nvidia-smi --query-gpu=compute_cap --format=csv,noheader)
 CFLAGS = -Wall -Wextra -g -std=c++17 -Isrc/headers -fopenmp
 NVCCFLAGS = -g -std=c++17 -Isrc/headers $(ARCH)
-LFLAGS_GUI = -lsfml-graphics -lsfml-window -lsfml-system
+LFLAGS_GUI = -lsfml-graphics -lsfml-window -lsfml-system -lGL
 
 # --- Directories ---
 SRC = src
+LIB = lib
 BIN = bin
 OBJ = obj
 
 # --- Source & Object Files ---
-CLI_CPP_SOURCES = $(SRC)/cli.cpp $(SRC)/generator/serial.cpp $(SRC)/generator/cpu.cpp $(SRC)/image_writer.cpp
-CLI_CU_SOURCES  = $(SRC)/generator/gpu.cu
-GUI_CPP_SOURCES = $(SRC)/gui/components.cpp $(SRC)/gui/control_window.cpp $(SRC)/gui/render_window.cpp $(SRC)/gui.cpp \
-                  $(SRC)/image_writer.cpp $(SRC)/generator/serial.cpp $(SRC)/generator/cpu.cpp
-GUI_CU_SOURCES  = $(SRC)/generator/gpu.cu
+CLI = $(SRC)/cli.cpp
+GUI = $(SRC)/gui/JuliaWindow.cpp $(SRC)/gui/MandelbrotWindow.cpp $(SRC)/gui/ControlWindow.cpp $(SRC)/gui.cpp        
+BACKEND = $(SRC)/generator/image_writer.cpp $(SRC)/generator/serial.cpp $(SRC)/generator/cpu.cpp
+CU  = $(SRC)/generator/gpu.cu
+IMGUI = $(wildcard $(LIB)/*.cpp)
 
-CLI_CPP_OBJECTS = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(CLI_CPP_SOURCES))
-CLI_CU_OBJECTS  = $(patsubst $(SRC)/%.cu,$(OBJ)/%.o,$(CLI_CU_SOURCES))
-GUI_CPP_OBJECTS = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(GUI_CPP_SOURCES))
-GUI_CU_OBJECTS  = $(patsubst $(SRC)/%.cu,$(OBJ)/%.o,$(GUI_CU_SOURCES))
+CLI_OBJECTS = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(CLI))
+GUI_OBJECTS = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(GUI))
+BACKEND_OBJECTS = $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(BACKEND))
+CU_OBJECTS  = $(patsubst $(SRC)/%.cu,$(OBJ)/%.o,$(CU))
+IMGUI_OBJECTS = $(patsubst $(LIB)/%.cpp,$(OBJ)/%.o,$(IMGUI))
 
 # --- Binaries ---
 CLI_BIN = $(BIN)/mandelbrot_cli
@@ -45,6 +47,12 @@ $(OBJ)/%.o: $(SRC)/%.cpp
 	@echo "Compiling C++: $<"
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJ)/%.o: $(LIB)/%.cpp
+	@mkdir -p $(dir $@)
+	@echo "Compiling ImGui: $<"
+	$(CC) $(CFLAGS) -c $< -o $@
+
+
 # Kompilasi CUDA (.cu -> .o)
 $(OBJ)/%.o: $(SRC)/%.cu
 	@mkdir -p $(dir $@)
@@ -52,16 +60,16 @@ $(OBJ)/%.o: $(SRC)/%.cu
 	$(NVCC) $(NVCCFLAGS) -c $< -o $@
 
 # Linking CLI 
-$(CLI_BIN): $(CLI_CPP_OBJECTS) $(CLI_CU_OBJECTS)
+$(CLI_BIN): $(CLI_OBJECTS) $(CU_OBJECTS) $(BACKEND_OBJECTS)
 	@mkdir -p $(BIN)
 	@echo "Linking $(CLI_BIN)..."
 	$(NVCC) $^ -o $@ -Xcompiler "$(CFLAGS)"
 
 # Linking GUI
-$(GUI_BIN): $(GUI_CPP_OBJECTS) $(GUI_CU_OBJECTS)
+$(GUI_BIN): $(GUI_OBJECTS) $(BACKEND_OBJECTS) $(CU_OBJECTS) $(IMGUI_OBJECTS) 
 	@mkdir -p $(BIN)
 	@echo "Linking $(GUI_BIN)..."
-	$(NVCC) $^ -o $@ $(LFLAGS_GUI) -Xcompiler "$(CFLAGS)"
+	$(NVCC) $^ -o $@ -Xcompiler "$(CFLAGS)" $(LFLAGS_GUI)
 
 # --- Utility Targets ---
 run_cli: cli
@@ -71,7 +79,7 @@ run_gui: gui
 	@./$(GUI_BIN)
 
 run_benchmark: benchmark
-	@bin/benchmark
+	@$(BIN)/benchmark
 
 clean:
 	@echo "Cleaning up..."
