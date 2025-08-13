@@ -12,37 +12,28 @@
 #include <memory>
 
 int main() {
-    // --- Initialization ---
     SharedState sharedState;
     ControlWindow controlWindow(sharedState);
     MandelbrotWindow mandelbrotWindow(sharedState);
 
-    // Use a smart pointer for the Julia window so it can be created and destroyed easily.
     std::unique_ptr<JuliaWindow> juliaWindow = nullptr;
 
     sf::Clock deltaClock;
 
-    // --- Main Application Loop ---
     while (sharedState.is_running) {
-        // --- Event Handling ---
         controlWindow.handleEvents();
         if (mandelbrotWindow.isOpen()) {
             mandelbrotWindow.handleEvents();
         }
-        // Handle events for the Julia window only if it exists.
         if (juliaWindow && juliaWindow->isOpen()) {
-            juliaWindow.setPosition();
             juliaWindow->handleEvents();
         }
 
-        // --- Update Logic ---
         
-        // Check if we need to create or destroy the Julia window.
+        // show julia logic
         if (sharedState.show_julia_window && !juliaWindow) {
-            // If the checkbox is ticked and the window doesn't exist, create it.
             juliaWindow = std::make_unique<JuliaWindow>(sharedState);
         } else if (!sharedState.show_julia_window && juliaWindow) {
-            // If the checkbox is unticked and the window exists, destroy it.
             juliaWindow.reset();
         }
         
@@ -51,12 +42,12 @@ int main() {
         if (mandelbrotWindow.isOpen()) {
             mandelbrotWindow.update();
         }
-        // Update the Julia window only if it exists.
+
         if (juliaWindow && juliaWindow->isOpen()) {
             juliaWindow->update();
         }
         
-        // --- Rendering ---
+        // Rendering
         controlWindow.defineUI();
 
         sf::RenderWindow& cw = controlWindow.getWindow();
@@ -67,7 +58,7 @@ int main() {
         if (mandelbrotWindow.isOpen()) {
             mandelbrotWindow.render();
         }
-        // Render the Julia window only if it exists.
+        
         if (juliaWindow && juliaWindow->isOpen()) {
             juliaWindow->render();
         }

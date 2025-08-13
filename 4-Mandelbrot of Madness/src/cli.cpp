@@ -1,7 +1,7 @@
 #include "headers/generator/cpu.hpp"
 #include "headers/generator/gpu.hpp"
 #include "headers/datatypes.hpp"
-#include "headers/image_writer.hpp"
+#include "headers/generator/image_writer.hpp"
 #include "stdio.h"
 #include <algorithm>
 
@@ -27,16 +27,25 @@ int main(){
 
     printf("%d x %d\n%d\n%s\n", width, height, max_iters, filename.c_str());
 
+    ColorScheme scheme = {
+        {0.0f, 0.0f, 0.0f},
+        {9.0f, 1.0f, 3.0f}, 
+        {15.0f, 2.0f, 2.0f},
+        {8.5f, 3.0f, 1.0f}  
+    };
+
+    Bounds bounds = {-2.0, 1.0, -1, 1};
+
     Colors result;
     if (mode == "serial") {
         printf("SERIAL\n");
-        result = mandelbrotSerial(width, height, max_iters);
+        result = mandelbrotSerial(width, height, max_iters, bounds, scheme);
     } else if (mode == "cpu") {
         printf("CPU\n");
-        result = mandelbrotCPU(width, height, max_iters);
+        result = mandelbrotCPU(width, height, max_iters, bounds, scheme);
     } else if (mode == "gpu") {
         printf("GPU\n");
-        result = mandelbrotGPU(width, height, max_iters);
+        result = mandelbrotGPU(width, height, max_iters, bounds, scheme);
     }
 
     printf("%s\n", save.c_str());
