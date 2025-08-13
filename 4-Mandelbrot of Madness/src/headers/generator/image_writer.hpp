@@ -1,12 +1,12 @@
 #pragma once
 #include "datatypes.hpp"
+#include "gui/SharedState.hpp"
 #include <fstream>
 #include <string>
 #include <cstdint>
 #include <algorithm>
-using namespace std;
 
 
-Color getColor(int n, int max_iter);
+Color getColor(int n, int max_iter, const ColorScheme& scheme);
 
-void saveToBmp(const string& filename, const Colors& pixels, int width, int height);
+void saveToBmp(const std::string& filename, const Colors& pixels, int width, int height);

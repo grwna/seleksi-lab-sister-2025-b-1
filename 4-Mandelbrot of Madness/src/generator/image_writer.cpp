@@ -1,24 +1,31 @@
 #include "../headers/generator/image_writer.hpp"
+#include <vector>
+using namespace std;
 
-
-Color getColor(int n, int max_iters){
-    const unsigned char bg_r = 64;
-    const unsigned char bg_g = 0;
-    const unsigned char bg_b = 0;
-    
+Color getColor(int n, int max_iters, const ColorScheme& scheme) {
     if (n == max_iters) return {0, 0, 0};
 
-    // normalisasi
-    float t = static_cast<float>(n)/ static_cast<float> (max_iters);
+    float t = static_cast<float>(n) / static_cast<float>(max_iters);
 
-    // interpolation
-    float interp_r = static_cast<unsigned char>(9 * (1 - t) * t * t * t * 255);
-    float interp_g = static_cast<unsigned char>(15 * (1 - t) * (1 - t) * t * t * 255);
-    float interp_b = static_cast<unsigned char>(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+    float r_coeff1 = scheme.pattern_r[0];
+    float r_coeff2 = scheme.pattern_r[1];
+    float r_coeff3 = scheme.pattern_r[2];
+    
+    float g_coeff1 = scheme.pattern_g[0];
+    float g_coeff2 = scheme.pattern_g[1];
+    float g_coeff3 = scheme.pattern_g[2];
 
-    unsigned char r = static_cast<unsigned char>(min(255.0f, bg_r + interp_r));
-    unsigned char g = static_cast<unsigned char>(min(255.0f, bg_g + interp_g));
-    unsigned char b = static_cast<unsigned char>(min(255.0f, bg_b + interp_b));
+    float b_coeff1 = scheme.pattern_b[0];
+    float b_coeff2 = scheme.pattern_b[1];
+    float b_coeff3 = scheme.pattern_b[2];
+
+    float interp_r = static_cast<unsigned char>(r_coeff1 * powf(1 - t, r_coeff2) * powf(t, r_coeff3) * 255);
+    float interp_g = static_cast<unsigned char>(g_coeff1 * powf(1 - t, g_coeff2) * powf(t, g_coeff3) * 255);
+    float interp_b = static_cast<unsigned char>(b_coeff1 * powf(1 - t, b_coeff2) * powf(t, b_coeff3) * 255);
+
+    unsigned char r = static_cast<unsigned char>(std::min(255.0f, (scheme.background[0] * 255) + interp_r));
+    unsigned char g = static_cast<unsigned char>(std::min(255.0f, (scheme.background[1] * 255) + interp_g));
+    unsigned char b = static_cast<unsigned char>(std::min(255.0f, (scheme.background[2] * 255) + interp_b));
 
     return {r, g, b};
 }

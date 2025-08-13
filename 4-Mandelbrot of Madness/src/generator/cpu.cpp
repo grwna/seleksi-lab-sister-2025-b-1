@@ -1,6 +1,6 @@
 #include "../headers/generator/cpu.hpp"
 
-Colors mandelbrotCPU(int width, int height, int max_iters, const Bounds& bounds){
+Colors mandelbrotCPU(int width, int height, int max_iters, const Bounds& bounds, const ColorScheme& scheme){
     Colors pixels(width * height);
 
     double x_range = bounds.x_max - bounds.x_min;
@@ -13,7 +13,7 @@ Colors mandelbrotCPU(int width, int height, int max_iters, const Bounds& bounds)
             float imag = bounds.y_min + (static_cast<float>(y) / (height - 1)) * y_range;
             
             int iterations = cardioidCheck(real, imag, max_iters);
-            pixels[y * width + x] = getColor(iterations, max_iters);
+            pixels[y * width + x] = getColor(iterations, max_iters, scheme);
         }
     }
 
@@ -21,7 +21,7 @@ Colors mandelbrotCPU(int width, int height, int max_iters, const Bounds& bounds)
 }
 
 
-Colors juliaCPU(int width, int height, int max_iterations, const Complex& c) {
+Colors juliaCPU(int width, int height, int max_iterations, const Complex& c, const ColorScheme& scheme) {
     Colors pixels(width * height);
 
     # pragma omp parallel for schedule(dynamic)
@@ -37,7 +37,7 @@ Colors juliaCPU(int width, int height, int max_iterations, const Complex& c) {
                 n++;
             }
 
-            pixels[y * width + x] = getColor(n, max_iterations);
+            pixels[y * width + x] = getColor(n, max_iterations, scheme);
         }
     }
     return pixels;

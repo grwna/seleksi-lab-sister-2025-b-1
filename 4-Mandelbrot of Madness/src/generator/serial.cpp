@@ -30,7 +30,7 @@ int calculateMandelbrot(const Complex &c, int max_iters){
     return n;
 }
 
-Colors mandelbrotSerial(int width, int height, int max_iters, const Bounds& bounds){
+Colors mandelbrotSerial(int width, int height, int max_iters, const Bounds& bounds, const ColorScheme& scheme){
     Colors pixels(width * height);
 
     double x_range = bounds.x_max - bounds.x_min;
@@ -42,14 +42,14 @@ Colors mandelbrotSerial(int width, int height, int max_iters, const Bounds& boun
             float imag = bounds.y_min + (static_cast<float>(y) / (height - 1)) * y_range;
             
             int iterations = cardioidCheck(real, imag, max_iters);
-            pixels[y * width + x] = getColor(iterations, max_iters);
+            pixels[y * width + x] = getColor(iterations, max_iters, scheme);
         }
     }
 
     return pixels;  
 }
 
-Colors juliaSerial(int width, int height, int max_iterations, const Complex& c) {
+Colors juliaSerial(int width, int height, int max_iterations, const Complex& c, const ColorScheme& scheme) {
     Colors pixels(width * height);
     
 
@@ -65,7 +65,7 @@ Colors juliaSerial(int width, int height, int max_iterations, const Complex& c) 
                 n++;
             }
 
-            pixels[y * width + x] = getColor(n, max_iterations);
+            pixels[y * width + x] = getColor(n, max_iterations, scheme);
         }
     }
     return pixels;
