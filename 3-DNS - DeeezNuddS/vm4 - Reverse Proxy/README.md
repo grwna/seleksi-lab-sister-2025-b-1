@@ -27,6 +27,10 @@ Spesifikasi *firewall* adalah sebagai berikut.
 - Blokir akses client pada ip range tertentu (ip dibebaskan)
 - Hanya memperbolehkan traffic dengan target port 8080
 
+>[!note]
+>**ASUMSI**
+>Interpretasi saya, hanya memperbolehkan *http traffic* berarti hanya memperbolehkan koneksi ke VM 4 melalui port HTTP (80), sedangkan *target port* merujuk pada ?>port pada HTTP Server (VM 2). Sehingga yang saya lakukan adalah blokir semua, lalu *allow* inbound ke port 80 dan *allow* outbound ke *destination port* 8080.
+
 *Firewall* tidak aktif dengan sendirinya, kita perlu mengaktifkannya dengan skrip `setup_firewall.sh`. Selain itu *firewall* juga tidak disimpan permanen, jika VM dimatikan *rules firewall* akan reset jadi `setup_firewall.sh` harus dijalankan ulang setiap kali menghidupkan VM. Gunakan `reset_firewall.sh` untuk mematikan *rules firewall*.
 
 
