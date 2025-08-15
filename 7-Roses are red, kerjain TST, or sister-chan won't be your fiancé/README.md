@@ -16,4 +16,4 @@
 | Deploy API  | Wajib | ❌ |
 | Integrasi | Wajib | ❌ |
 
-Deployment ada di: https://sister-tst.vercel.app (Note: Gagal, ga sempat benerin)
+Deployment ada di: https://sister-tst.vercel.app
