@@ -9,9 +9,8 @@ const apiRoutes = require('./src/routes/api.routes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(express.json());
-app.use(express.static('public')); // frontend
+app.use(express.static('public'));
 
 app.use(passport.initialize());
 
