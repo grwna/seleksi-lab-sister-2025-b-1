@@ -11,5 +11,9 @@
 | Spesifikasi          | Sifat | Status |
 | -------------------- | ----- | ------ |
 | Dokumen Bisnis | Wajib | ✅ |
-| API & Dokumentasi  | Wajib | ❌ |
+| API  | Wajib | ✅ |
+| Dokumentasi API  | Wajib | ✅ |
+| Deploy API  | Wajib | ✅ |
 | Integrasi | Wajib | ❌ |
+
+Deployment ada di: https://sister-tst.vercel.app
