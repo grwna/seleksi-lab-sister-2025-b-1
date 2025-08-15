@@ -1,7 +1,7 @@
 import requests
 import json
 
-token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJncnduYSIsImVtYWlsIjoicmVzcGVjdHNlcmVuZGlwaXR5QGdtYWlsLmNvbSIsImlhdCI6MTc1NTI1NTI5NiwiZXhwIjoxNzU1MzQxNjk2fQ.vEZgT99STPSvaDMz1y5pchrSU7dDKayV9P6hOJXdxuw"
+token = "{JWT_TOKEN_HERE}"
 
 text_to_summarize = "This is a long text that I want to summarize using the API without a browser."
 
