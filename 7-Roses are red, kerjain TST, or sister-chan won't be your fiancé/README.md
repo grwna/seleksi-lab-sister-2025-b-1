@@ -13,7 +13,7 @@
 | Dokumen Bisnis | Wajib | ✅ |
 | API  | Wajib | ✅ |
 | Dokumentasi API  | Wajib | ✅ |
-| Deploy API  | Wajib | ✅ |
+| Deploy API  | Wajib | ❌ |
 | Integrasi | Wajib | ❌ |
 
-Deployment ada di: https://sister-tst.vercel.app
+Deployment ada di: https://sister-tst.vercel.app (Note: Gagal, ga sempat benerin)
