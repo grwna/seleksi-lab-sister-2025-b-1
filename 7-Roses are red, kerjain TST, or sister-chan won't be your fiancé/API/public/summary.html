@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Ringkasan - Ringkas.in</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        <header>
+            <h1>Ringkas.in</h1>
+            <nav>
+                <a href="/history.html">Riwayat</a>
+                <button id="logout-btn">Logout</button>
+            </nav>
+        </header>
+
+        <main>
+            <h2>Buat Ringkasan Baru</h2>
+            <form id="summary-form">
+                <textarea id="source-text" placeholder="Masukkan teks yang ingin Anda ringkas di sini..." required></textarea>
+                <button type="submit">Ringkas Sekarang!</button>
+            </form>
+            <div id="result-container">
+                <h3>Hasil Ringkasan:</h3>
+                <div id="summary-output">Memproses...</div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
