@@ -1,8 +1,8 @@
 #include "../headers/utils.h"
 
-uint string_len(const char* str) {
+uint string_len(char* str) {
     uint length = 0;
-    const char* ptr = str;
+    char* ptr = str;
 
     loop_start:
         if (EQUAL(*ptr,0)) goto loop_end;
