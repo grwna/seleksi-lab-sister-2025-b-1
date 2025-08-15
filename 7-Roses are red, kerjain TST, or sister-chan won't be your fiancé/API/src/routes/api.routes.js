@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const express = require('express');
 const axios = require('axios');
 const authenticateToken = require('../middleware/auth.middleware');
@@ -17,10 +15,14 @@ router.post('/summarize', async (req, res) => {
     return res.status(400).json({ error: 'Teks tidak boleh kosong.' });
   }
 
+  const wrapperInstruction = "Summarize the following text into a concise and clear paragraph, focusing only on the main points and key information, use the language used in the text below:";
+
+  const finalText = `${wrapperInstruction}\n\n${text}`;
+
   try {
     const response = await axios.post(
       "https://api-inference.huggingface.co/models/facebook/bart-large-cnn",
-      { inputs: text },
+      { inputs: finalText },
       { headers: { Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}` } }
     );
 
@@ -39,6 +41,58 @@ router.post('/summarize', async (req, res) => {
   }
 });
 
-// (Nanti kita akan tambahkan rute untuk riwayat di sini)
+router.get('/history', async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const result = await pool.query(
+      'SELECT summary_id, summarized_text, created_at FROM SummaryHistory WHERE user_id = $1 ORDER BY created_at DESC', 
+      [userId]
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error saat mengambil riwayat:", error);
+    res.status(500).json({ error: 'Gagal mengambil riwayat.' });
+  }
+});
+
+router.get('/history/:id', async (req, res) => {
+  const userId = req.user.id;
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      'SELECT * FROM SummaryHistory WHERE summary_id = $1 AND user_id = $2',
+      [id, userId]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Entri riwayat tidak ditemukan.' });
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Error saat mengambil detail riwayat:", error);
+    res.status(500).json({ error: 'Gagal mengambil detail riwayat.' });
+  }
+});
+
+
+router.delete('/history/:id', async (req, res) => {
+  const userId = req.user.id;
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query(
+      'DELETE FROM SummaryHistory WHERE summary_id = $1 AND user_id = $2',
+      [id, userId]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Entri riwayat tidak ditemukan.' });
+    }
+
+    res.status(200).json({ message: 'Entri riwayat berhasil dihapus.' });
+  } catch (error) {
+    console.error("Error saat menghapus riwayat:", error);
+    res.status(500).json({ error: 'Gagal menghapus riwayat.' });
+  }
+});
 
 module.exports = router;

@@ -17,7 +17,6 @@ passport.use(new GoogleStrategy({
       let user = result.rows[0];
 
       if (!user) {
-        // create new user
         const newUserResult = await pool.query(
           'INSERT INTO Users (username, email) VALUES ($1, $2) RETURNING *',
           [displayName, email]

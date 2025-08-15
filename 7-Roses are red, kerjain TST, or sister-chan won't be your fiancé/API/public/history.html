@@ -11,18 +11,33 @@
         <header>
             <h1>Riwayat Ringkasan</h1>
             <nav>
-                <a href="/summary.html">Buat Ringkasan</a>
+                <button onclick="window.location.href='/summary.html'">Buat Ringkasan</button>
                 <button id="logout-btn">Logout</button>
             </nav>
         </header>
-
         <main>
             <ul id="history-list">
-                <!-- Daftar riwayat akan diisi oleh JavaScript -->
+                <!-- list wil be filled by js -->
             </ul>
         </main>
     </div>
+
+    <div id="history-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="close-btn">&times;</button>
+            <h2>Detail Ringkasan</h2>
+            <div class="modal-body">
+                <h3>Teks Asli:</h3>
+                <p id="modal-source-text"></p>
+                <h3>Hasil Ringkasan:</h3>
+                <p id="modal-summary-text"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-delete-btn" class="delete-btn">Hapus Riwayat Ini</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
-w
