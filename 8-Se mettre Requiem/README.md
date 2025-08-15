@@ -1,7 +1,7 @@
 # Se mettre Requiem
 
 Pengali dua bilangan positif yang hanya menggunakan *bitwise operator*. Menggunakan *Number Theoretic Transform* untuk menghitung perkalian angka yang sangat besar dalam waktu yang *reasonable*. <br><br>
-Ada dua versi dari program, yaitu versi yang mengakses index dari array melalui macro dan yang langsung mengakses menggunakan subscript. Versi subscript sebenarnya hanya untuk membandingkan performa dengin versi macro ketika mengoptimasinya, cuman sayang kalo dibuang. **NOTE**: perbedaan performa ternyata tidak jauh<br><br>
+Ada dua versi dari program, yaitu versi yang mengakses index dari array melalui macro dan yang langsung mengakses menggunakan subscript. Versi subscript sebenarnya hanya untuk membandingkan performa dengan versi macro waktu optimisasi, dan tidak memenuhi aturan, cuman sayang kalo dibuang. **NOTE**: perbedaan performa ternyata tidak jauh<br><br>
 **Versi utama** dari program ini adalah versi macro yang disimpan pada folder `macro_index`
 
 ## Author
